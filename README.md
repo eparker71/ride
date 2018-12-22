@@ -11,7 +11,7 @@ You will need to install Docker and docker-compose
 
 You will need to add your own settings 
 
-create a file called `secure.py` and add the following lines.
+create a file called `secure.py` in the same folder as `settings.py` and add the following lines.
 
 ```
 secure_settings = {
