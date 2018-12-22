@@ -32,20 +32,22 @@
     </head>
     <body>
         <div class="container">
-            {% for route in routes.data %}
-                <div class="route" style="background-color: #{{ route.attributes.color }}; color: #{{route.attributes.text_color}};">
-                    <p><a href="route/{{ route.id }}">{{route.id}}</a> <br />
-                    {{ route.attributes.description }}<br />
-                    {{ route.attributes.long_name }}<br />
-                    {% for direction in route.attributes.direction_destinations %}
-                        {{direction}} <br />
-                    {% endfor %}
-                    </p>
-                </div>
-            {% endfor %}
+            <div class="route" style="background-color: #{{ route.data.attributes.color }}; color: #{{route.data.attributes.text_color}};">
+                <p>{{ route.data.id }} <br />
+                {{ route.data.attributes.description }}<br />
+                {{ route.data.attributes.long_name }}<br />
+                {% for direction in route.data.attributes.direction_destinations %}
+                    {{direction}} <br />
+                {% endfor %}
+                </p>
+            </div>
+            <div>
+                <p><a href="/mbta">All Routes</a></p>
+            </div>
+            
         </div>
 
-        <!-- <div class="container"> 
+        <div class="container">
             {% for vehicle in vehicles.data %}
                 <div class="vehicle">
                     <p>
@@ -75,7 +77,8 @@
                 zoom:10,
             };
             var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-            var outbound = "https://maps.google.com/mapfiles/ms/icons/blue.png";
+            var outbound = "https://maps.google.com/mapfiles/ms/icons/red.png";
+            var inbound = "https://maps.google.com/mapfiles/ms/icons/blue.png";
             var stop_icon = "https://maps.google.com/mapfiles/ms/icons/green.png";
 
             {% for stop in stops.data %} 
@@ -101,6 +104,8 @@
                     animation: google.maps.Animation.DROP,
                     {% if vehicle.attributes.direction_id == 0 %}
                     icon: new google.maps.MarkerImage(outbound)
+                    {% else %}
+                    icon: new google.maps.MarkerImage(inbound)
                     {% endif %}
                 });
                 marker{{ forloop.counter }}.info = new google.maps.InfoWindow({
@@ -114,10 +119,10 @@
             
             {% endfor %}
         }
+    
         </script>
 
         <script src="https://maps.googleapis.com/maps/api/js?key={{mapkey}}&callback=myMap"></script>
 
-        -->
     </body>
 </html>

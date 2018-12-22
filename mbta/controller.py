@@ -5,6 +5,7 @@ from urllib.parse import urlencode
 from ride.secure import secure_settings
 from ride.settings import app_settings
 
+
 API_KEY = secure_settings.get("API_KEY")
 BASE_URL = app_settings.get("API_URL")
 
@@ -24,7 +25,7 @@ def get_route_names():
     return route_list
 
 def get_vehicles(route=None):
-    route_url = "{}vehicles".format(BASE_URL)
+    route_url = "{}/vehicles".format(BASE_URL)
     if route:
         params =  {'filter[route]': route}
         r = requests.get(route_url, params=params,headers={'x-api-key': API_KEY})
@@ -33,7 +34,7 @@ def get_vehicles(route=None):
     return r.json()
 
 def get_stops(route=None):
-    route_url = "{}stops".format(BASE_URL)
+    route_url = "{}/stops".format(BASE_URL)
     if route:
         params =  {'filter[route]': route}
         r = requests.get(route_url, params=params,headers={'x-api-key': API_KEY})
