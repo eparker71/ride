@@ -1,6 +1,8 @@
 from django.shortcuts import render
 
+from ride.secure import secure_settings
 import mbta.controller as api
+
 
 # Create your views here.
 
@@ -9,14 +11,29 @@ from django.http import HttpResponse
 def home(request):
     
     routes = api.get_routes()
-
-    vehicles = api.get_vehicles('CR-Fitchburg')
+    stops = api.get_stops("CR-Fitchburg")
+    # CR-Fairmount
+    # CR-Fitchburg
+    # CR-Foxboro
+    # CR-Franklin
+    # CR-Greenbush
+    # CR-Haverhill
+    # CR-Kingston
+    # CR-Lowell
+    # CR-Middleborough
+    # CR-Needham
+    # CR-Newburyport
+    # CR-Providence
+    # CR-Worcester
+    vehicles = api.get_vehicles("CR-Fitchburg")
 
     return render(request,
         'mbta/index.html',
         {
             'title': 'MBTA CR',
             'routes': routes,
-            'vehicles': vehicles
+            'vehicles': vehicles,
+            'stops' : stops,
+            'mapkey': secure_settings["MAP_KEY"]
         }
     )
