@@ -1,12 +1,7 @@
-from django.shortcuts import render
-
-from ride.secure import secure_settings
 import mbta.controller as api
-
-
-# Create your views here.
-
 from django.http import HttpResponse
+from django.shortcuts import render
+from ride.secure import secure_settings
 
 def home(request):
     
