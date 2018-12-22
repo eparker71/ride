@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ title }}</title>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .container {
+                float:left;
+            }
+            .route {
+                float:left;
+                margin-left: 10px;
+                margin-bottom: 10px;
+                padding: 10px 10px;
+                font-size: small;
+            }
+            .vehicle {
+                background-color: bisque;
+                float:left;
+                margin-left: 10px;
+                margin-bottom: 10px;
+                padding: 10px 10px;
+                font-size: small;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            {% for route in routes.data %}
+                <div class="route" style="background-color: #{{ route.attributes.color }}; color: #{{route.attributes.text_color}};">
+                    <p>{{ route.id }} <br />
+                    {{ route.attributes.description }}<br />
+                    {{ route.attributes.long_name }}<br />
+                    {% for direction in route.attributes.direction_destinations %}
+                        {{direction}} <br />
+                    {% endfor %}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="container">
+            {% for vehicle in vehicles.data %}
+                <div class="vehicle">
+                    <p>
+                        {{vehicle.attributes.bearing}} <br />
+                        {{vehicle.attributes.current_status}} <br />
+                        {{vehicle.attributes.current_stop_sequence}} <br />
+                        {{vehicle.attributes.direction_id}} <br />
+                        {{vehicle.attributes.label}} <br />
+                        {{vehicle.attributes.latitude}} <br />
+                        {{vehicle.attributes.longitude}} <br />
+                        {{vehicle.attributes.speed}} <br />
+                        {{vehicle.attributes.updated_at}} <br />
+                    </p>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </body>
+</html>
