@@ -62,6 +62,22 @@
             var inbound = '{% static "mbta/bluerail.png" %}';
             var stop_icon = '{% static "mbta/green.png" %}';
 
+            {% for stop in stops.data %} 
+                var stop{{ forloop.counter }} = new google.maps.Marker({
+                    position: new google.maps.LatLng({{stop.attributes.latitude}}, {{stop.attributes.longitude}} ),
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                    icon: new google.maps.MarkerImage(stop_icon)
+                });
+                stop{{ forloop.counter }}.info = new google.maps.InfoWindow({
+                    content: '<b>{{stop.attributes.name}}</b>'
+                    
+                });
+                google.maps.event.addListener(stop{{ forloop.counter }}, 'click', function() {
+                    stop{{ forloop.counter }}.info.open(map, stop{{ forloop.counter }});
+                });
+            {% endfor %}
+            
             {% for vehicle in vehicles.data %} 
                 var marker{{ forloop.counter }} = new google.maps.Marker({
                     position: new google.maps.LatLng({{vehicle.attributes.latitude}}, {{vehicle.attributes.longitude}} ),
@@ -83,24 +99,6 @@
                 });
             
             {% endfor %}
-
-            {% for stop in stops.data %} 
-                var stop{{ forloop.counter }} = new google.maps.Marker({
-                    position: new google.maps.LatLng({{stop.attributes.latitude}}, {{stop.attributes.longitude}} ),
-                    map: map,
-                    animation: google.maps.Animation.DROP,
-                    icon: new google.maps.MarkerImage(stop_icon)
-                });
-                stop{{ forloop.counter }}.info = new google.maps.InfoWindow({
-                    content: '<b>{{stop.attributes.name}}</b>'
-                    
-                });
-                google.maps.event.addListener(stop{{ forloop.counter }}, 'click', function() {
-                    stop{{ forloop.counter }}.info.open(map, stop{{ forloop.counter }});
-                });
-            {% endfor %}
-            
-           
         }
         </script>
 
