@@ -82,6 +82,7 @@
                 var marker{{ forloop.counter }} = new google.maps.Marker({
                     position: new google.maps.LatLng({{vehicle.attributes.latitude}}, {{vehicle.attributes.longitude}} ),
                     map: map,
+                    zIndex:99999999,
                     animation: google.maps.Animation.DROP,
                     {% if vehicle.attributes.direction_id == 0 %}
                     icon: new google.maps.MarkerImage(outbound)
