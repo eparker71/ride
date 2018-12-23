@@ -91,7 +91,7 @@
                 marker{{ forloop.counter }}.info = new google.maps.InfoWindow({
                     content: '<b>Speed:</b> {{vehicle.attributes.speed}} <br />' +
                     '<b>Train</b> {{vehicle.attributes.label}} <br />' +
-                    '{% if vehicle.attributes.direction_id == 0 %} Outbound {% else %} Inbound {% endif %}'
+                    '<b>{% if vehicle.attributes.direction_id == 0 %} Outbound {% else %} Inbound {% endif %}</b>'
                 });
                 google.maps.event.addListener(marker{{ forloop.counter }}, 'click', function() {
                     marker{{ forloop.counter }}.info.open(map, marker{{ forloop.counter }});
