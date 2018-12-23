@@ -11,11 +11,23 @@
                 float:left;
             }
             .route {
+                display: block;
                 float:left;
                 margin-left: 10px;
                 margin-bottom: 10px;
                 padding: 10px 10px;
                 font-size: small;
+            }
+            a:link {
+                text-decoration: none;
+            }
+
+            a:visited {
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: none;
             }
             .vehicle {
                 background-color: bisque;
@@ -33,17 +45,30 @@
     <body>
         <div class="container">
             {% for route in routes.data %}
-                <div class="route" style="background-color: #{{ route.attributes.color }}; color: #{{route.attributes.text_color}};">
-                    <p><a href="route/{{ route.id }}">{{route.id}}</a> <br />
+                <a href="route/{{ route.id }}" class="route" style="background-color: #{{ route.attributes.color }}; color: #{{route.attributes.text_color}};">
+                    <p>{{route.id}}<br />
                     {{ route.attributes.description }}<br />
-                    {{ route.attributes.long_name }}<br />
+                    <!-- {{ route.attributes.long_name }}<br /> -->
                     {% for direction in route.attributes.direction_destinations %}
                         {{direction}} <br />
                     {% endfor %}
                     </p>
-                </div>
+                </a>
             {% endfor %}
         </div>
+
+
+        <!-- {% for route in routes.data %}
+        <div data-route="{{ route.id }}" class="route" style="background-color: #{{ route.attributes.color }}; color: #{{route.attributes.text_color}};">
+            <p><a href="route/{{ route.id }}">{{route.id}}</a> <br />
+            {{ route.attributes.description }}<br />
+            {{ route.attributes.long_name }}<br />
+            {% for direction in route.attributes.direction_destinations %}
+                {{direction}} <br />
+            {% endfor %}
+            </p>
+        </div>
+        {% endfor %} -->
 
         <!-- <div class="container"> 
             {% for vehicle in vehicles.data %}

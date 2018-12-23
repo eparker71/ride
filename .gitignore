@@ -1,5 +1,13 @@
-# don't checkin the secure file
+# don't checkin the secure or user_data files
+
+# secure is required by the application
 secure.py
+
+# user_data is used to create server instances for peod deployment
+# not required by the application to run
+user_data.sh
+
+*.pem
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
