@@ -1,11 +1,56 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
-.container {
+
+* {box-sizing: border-box;}
+.wrapper {
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.wrapper > div {
+  border: 2px solid rgb(233,171,88);
+  border-radius: 5px;
+  background-color: $ffffff;
+  padding: 1em;
+  
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}
+.one {
+  grid-column: 1 ;
+  grid-row: 1 / 1;
+}
+.two { 
+  grid-column: 1 ;
+  grid-row: 2 ;
+}
+.three { 
+    grid-column: 2 / -1;
+    grid-row: 1 / 4;
+  }
+  
+
+
+/* .container {
     float:left;
     margin-left: 10px;
     margin-bottom: 10px;
+} */
+
+.title {
+    background-color: #ffffff;
+    font-weight: bold;
+    padding: 3px 3px;
+    border-radius: 25px;
+    color: #008CBA;
+    margin-bottom: 10px;
 }
+
 .route {
     float:left;
     margin-left: 10px;
@@ -22,8 +67,8 @@ body {
     font-size: small;
 }
 .mapcontainer {
-    height: 400px;
-    width: 400px;
+    height: 500px;
+    width: 100%;
 }
 .button {
     background-color: #008CBA; /* Green */
@@ -38,8 +83,8 @@ body {
     cursor: pointer;
 }
 
-@media only screen and (max-width: 800px) {
+/* @media only screen and (max-width: 800px) {
     .vehicle {
         display: none;
     }
-}
+} */

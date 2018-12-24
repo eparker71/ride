@@ -3,6 +3,8 @@ chardet==3.0.4
 Django==2.1.4
 django-debug-toolbar==1.11
 django-redis==4.10.0
+geographiclib==1.49
+geopy==1.18.1
 idna==2.8
 pytz==2018.7
 redis==3.0.1
