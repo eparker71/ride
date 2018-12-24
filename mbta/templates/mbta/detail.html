@@ -5,15 +5,27 @@
         <meta charset="utf-8" />
         <title>{{ title }}</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href='{% static "mbta/style.css" %}' rel="stylesheet">
+        {% if env == 'dev' %}
+            <link href='{% static "mbta/style.css" %}' rel="stylesheet">
+        {% else %}
+            <link href='http://cscie34.s3-website.us-east-2.amazonaws.com/ride/style.css' rel="stylesheet">
+        {% endif %}
+
     </head>
     <body>
 
         <div id="nav" class="container">
             <a class="button" href="/mbta">View All Routes</a><br />
-            <img src="{% static "mbta/green.png" %}"> Stop<br />
-            <img src="{% static "mbta/redrail.png" %}"> Outbound Train<br />
-            <img src="{% static "mbta/bluerail.png" %}"> Inbound Train
+            {% if env == 'dev' %}
+                <img src="{% static "mbta/green.png" %}"> Stop<br />
+                <img src="{% static "mbta/redrail.png" %}"> Outbound Train<br />
+                <img src="{% static "mbta/bluerail.png" %}"> Inbound Train
+            {% else %}
+                <img src="http://cscie34.s3-website.us-east-2.amazonaws.com/ride/green.png" %}"> Stop<br />
+                <img src="http://cscie34.s3-website.us-east-2.amazonaws.com/ride/redrail.png" %}"> Outbound Train<br />
+                <img src="http://cscie34.s3-website.us-east-2.amazonaws.com/ride/bluerail.png" %}"> Inbound Train
+            {% endif %}
+
         </div>
 
         <div class="container">

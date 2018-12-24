@@ -2,6 +2,7 @@ import mbta.controller as api
 from django.http import HttpResponse
 from django.shortcuts import render
 from ride.secure import secure_settings
+from ride.settings import ENV
 
 # CR-Fairmount
 # CR-Fitchburg
@@ -41,6 +42,7 @@ def detail(request, route_id):
             'route': route,
             'vehicles': vehicles,
             'stops' : stops,
-            'mapkey': secure_settings["MAP_KEY"]
+            'mapkey': secure_settings["MAP_KEY"],
+            'env' : ENV
         }
     )

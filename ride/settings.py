@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from ride.secure import secure_settings
 
+ENV = os.environ['ENV']
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,7 +28,10 @@ SECRET_KEY = secure_settings["DJANGO_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+if 'dev' in ENV:
+    ALLOWED_HOSTS = []
+elif 'prod' in ENV:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
