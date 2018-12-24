@@ -70,9 +70,15 @@
                 zoom:8,
             };
             var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-            var outbound = '{% static "mbta/redrail.png" %}';
-            var inbound = '{% static "mbta/bluerail.png" %}';
-            var stop_icon = '{% static "mbta/green.png" %}';
+            {% if env == 'dev' %}
+                var outbound = '{% static "mbta/redrail.png" %}';
+                var inbound = '{% static "mbta/bluerail.png" %}';
+                var stop_icon = '{% static "mbta/green.png" %}';
+            {% else %}
+                var stop_icon = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/green.png";
+                var outbound =  "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/redrail.png";
+                var inbound = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/bluerail.png";
+            {% endif %}
 
             {% for stop in stops.data %} 
                 var stop{{ forloop.counter }} = new google.maps.Marker({
