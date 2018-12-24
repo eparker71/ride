@@ -14,6 +14,18 @@
     </head>
     <body>
 
+        <div class="container">
+            <div class="route" style="background-color: #{{ route.data.attributes.color }}; color: #{{route.data.attributes.text_color}};">
+                <p>{{ route.data.id }} <br />
+                {{ route.data.attributes.description }}<br />
+                {{ route.data.attributes.long_name }}<br />
+                {% for direction in route.data.attributes.direction_destinations %}
+                    {{direction}} <br />
+                {% endfor %}
+                </p>
+            </div>
+        </div>
+        
         <div id="nav" class="container">
             <a class="button" href="/mbta">View All Routes</a><br />
             {% if env == 'dev' %}
@@ -28,23 +40,13 @@
 
         </div>
 
-        <div class="container">
-            <div class="route" style="background-color: #{{ route.data.attributes.color }}; color: #{{route.data.attributes.text_color}};">
-                <p>{{ route.data.id }} <br />
-                {{ route.data.attributes.description }}<br />
-                {{ route.data.attributes.long_name }}<br />
-                {% for direction in route.data.attributes.direction_destinations %}
-                    {{direction}} <br />
-                {% endfor %}
-                </p>
-            </div>
-        </div>
+ 
 
         <div class="mapcontainer">
             <div id="googleMap" style="width:600px;height:600px;"></div>
         </div>
 
-        <div class="container">
+        <!-- <div class="container">
         {% for vehicle in vehicles.data %}
             <div class="vehicle">
                 <p>
@@ -53,14 +55,14 @@
                     Current Stop: {{vehicle.attributes.current_stop_sequence}} <br />
                     Direction: {% if vehicle.attributes.direction_id == 0 %}Outbound{% else %}Inbound{%endif%}<br />
                     Label: {{vehicle.attributes.label}} <br />
-                    <!-- Latitude: {{vehicle.attributes.latitude}} <br />
-                    Longitude: {{vehicle.attributes.longitude}} <br /> -->
+                    Latitude: {{vehicle.attributes.latitude}} <br />
+                    Longitude: {{vehicle.attributes.longitude}} <br />
                     Speed: {{vehicle.attributes.speed}} <br />
                     Updated: {{vehicle.attributes.updated_at}} <br />
                 </p>
             </div>
         {% endfor %}
-        </div>
+        </div> -->
 
         <script>
         function myMap() {
