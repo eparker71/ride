@@ -44,9 +44,12 @@ def detail(request, route_id):
         coord = ( stop["attributes"]["latitude"], stop["attributes"]["longitude"] )
         stop_coords.append(coord)
     
+    print(stop_coords)
+
     #center_list = findMiddle(list(stop_coords))
     #lat, long, * rest = center_list[0]
-    center_coord = findMiddleOfCoords(stop_coords[0], stop_coords[-1])
+    center_coord = findMiddleOfCoords(stop_coords)
+    print(center_coord)
     lat, long = center_coord
     map_center = { "latitude" : lat, "longitude" : long }
 
@@ -56,12 +59,21 @@ def detail(request, route_id):
 
     distance = great_circle(stop_coords[0], stop_coords[-1]).miles
     print(distance)
-    if distance < 30:
+    if distance <= 1:
+        zoom_level = 13
+    elif distance <= 3:
+        zoom_level = 14
+    elif distance > 3 and distance <= 5:
+        zoom_level = 13
+    elif distance > 5 and distance <= 10:
+        zoom_level = 12
+    elif distance > 10 and distance <= 30:
         zoom_level = 10
-    elif distance > 56:
+    elif distance > 30 and distance <= 50:
+        zoom_level = 10
+    elif distance > 50:
         zoom_level = 9
-    elif distance > 30 and distance < 56:
-        zoom_level = 10
+    
 
     return render(request,
         'mbta/detail.html',

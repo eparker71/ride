@@ -7,11 +7,18 @@ def findMiddle(input_list):
     else:
         return [input_list[int(middle)], input_list[int(middle-1)]]
 
-def findMiddleOfCoords( point1, point2):
-    lat1, long1 = point1
-    lat2, long2 = point2
+def findMiddleOfCoords( coords ):
+    lats = []
+    longs = []
 
-    new_lat = lat1 + lat2
-    new_long = long1 + long2
+    for c in coords:
+        lat, long = c
+        lats.append(lat)
+        longs.append(long)
 
-    return (new_lat/2, new_long/2)
+    sum_lat = sum(float(item) for item in lats)
+    sum_long = sum(float(item) for item in longs)
+    newlat = sum_lat/len(lats)
+    newlong = sum_long/len(longs)
+
+    return (newlat, newlong)
