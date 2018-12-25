@@ -1,5 +1,7 @@
 # put utility functions here
 
+from geopy.distance import geodesic, great_circle
+
 def findMiddle(input_list):
     middle = float(len(input_list))/2
     if middle % 2 != 0:
@@ -22,3 +24,15 @@ def findMiddleOfCoords( coords ):
     newlong = sum_long/len(longs)
 
     return (newlat, newlong)
+
+def getRadius(coords, center):
+
+    dist_list = []
+    for coord in coords:
+        distance = great_circle(center, coord).miles
+        dist_list.append(distance)
+    
+    dist_list.sort()
+
+    return dist_list[-1]
+
