@@ -44,28 +44,12 @@ def detail(request, route_id):
         coord = ( stop["attributes"]["latitude"], stop["attributes"]["longitude"] )
         stop_coords.append(coord)
     
-    #center_list = findMiddle(list(stop_coords))
-    #lat, long, * rest = center_list[0]
     center_coord = findMiddleOfCoords(stop_coords)
     lat, long = center_coord
     map_center = { "latitude" : lat, "longitude" : long }
-
-    # zoom level 10 works for a distance between begin and end of 22.668560907933028
-    # zoom level 9 works for distance 42.174371262042385
-    # zoom level 8 works for distance 57.785180375383995
-
-    # zoom level 0 is the most zoomed out
-    # zoom lebel 20 is the most zoomed in
-
-    # get the radius of the circle 
-    # radius = getRadius(stop_coords, center_coord)
-
-    # Radius: 24.04704155479966
-    # Diameter: 48.09408310959932
-
     distance = great_circle(stop_coords[0], stop_coords[-1]).miles
-
     radius = getRadius(stop_coords, center_coord)
+
     print("Distance: {}".format(distance))
     print("Radius: {}".format(radius))
     print("Diameter: {}".format(radius*2))

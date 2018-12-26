@@ -13,6 +13,10 @@ pipeline {
             // when { branch 'dev' }
             steps {
                 echo 'Testing Dev'
+                sh """
+                    export ENV='dev'
+                    
+                """
             }
         }
         stage("Deploy to Prod"){
