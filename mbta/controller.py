@@ -28,7 +28,7 @@ def get_vehicles(route=None):
     route_url = "{}/vehicles".format(BASE_URL)
     if route:
         params =  {'filter[route]': route}
-        r = requests.get(route_url, params=params,headers={'x-api-key': API_KEY})
+        r = requests.get(route_url, params=params, headers={'x-api-key': API_KEY})
     else:
         r = requests.get(route_url, headers={'x-api-key': API_KEY})
     return r.json()
@@ -37,11 +37,16 @@ def get_stops(route=None):
     route_url = "{}/stops".format(BASE_URL)
     if route:
         params =  {'filter[route]': route}
-        r = requests.get(route_url, params=params,headers={'x-api-key': API_KEY})
+        r = requests.get(route_url, params=params, headers={'x-api-key': API_KEY})
     else:
         r = requests.get(route_url, headers={'x-api-key': API_KEY})
     return r.json()
 
+def get_prediction(route=None):
+    url = "{}/predictions".format(BASE_URL)
+    params =  {'filter[route]': route}
+    r = requests.get(url, params=params, headers={'x-api-key': API_KEY})
+    return r.json()
 
 # def get_trips(route=None):
 #     route_url = "{}/trips?filter[route]={}&sort=headsign".format(BASE_URL, route)

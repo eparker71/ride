@@ -37,6 +37,9 @@ def detail(request, route_id):
     route = api.get_routes(route_id)
     stops = api.get_stops(route_id)
     vehicles = api.get_vehicles(route_id)
+    predictions = api.get_prediction(route_id)
+
+    print(predictions)
 
     stop_coords = []
 
