@@ -33,6 +33,11 @@ def get_vehicles(route=None):
         r = requests.get(route_url, headers={'x-api-key': API_KEY})
     return r.json()
 
+def get_vehicle(id):
+    url = "{}/vehicles/{}".format(BASE_URL, id)
+    r = requests.get(url, headers={'x-api-key': API_KEY})
+    return r.json()
+
 def get_stops(route=None):
     route_url = "{}/stops".format(BASE_URL)
     if route:

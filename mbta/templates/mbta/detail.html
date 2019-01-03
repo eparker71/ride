@@ -72,7 +72,31 @@
             {% endfor %}
             </div> -->
         </div>
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
         <script>
+        markers = [];
+        function updateMarkers() {
+            // for(i = 0; i < markers.length; i++){
+            //     marker = markers[i];
+            //     url = '/mbta/vehicle/' + marker.title + '/';
+            //     console.log(url);
+            // }
+
+            for(i = 0; i < markers.length; i++){
+                marker = markers[i];
+                purl = '/mbta/vehicle/' + marker.title + '/';
+                request = $.ajax({ url: purl, async: false, cache: false }).done(function(json) {
+                            var LatLng = new google.maps.LatLng(json.latitude, json.longitude);
+                            marker.setPosition(LatLng);
+                        });
+            }
+
+        }
+        
+        window.setInterval(updateMarkers, 10000);
         function myMap() {
             // Boston 42.361145, -71.057083
             // Concord 42.4602778,-71.3494444
@@ -113,6 +137,7 @@
                 var marker{{ forloop.counter }} = new google.maps.Marker({
                     position: new google.maps.LatLng({{vehicle.attributes.latitude}}, {{vehicle.attributes.longitude}} ),
                     map: map,
+                    title: '{{ vehicle.id }}',
                     zIndex:99999999,
                     animation: google.maps.Animation.DROP,
                     {% if vehicle.attributes.direction_id == 0 %}
@@ -121,6 +146,8 @@
                     icon: new google.maps.MarkerImage(inbound)
                     {% endif %}
                 });
+                // use this to update marker position
+                //https://stackoverflow.com/questions/9736508/update-marker-in-real-time
                 marker{{ forloop.counter }}.info = new google.maps.InfoWindow({
                     content: '<b>Speed:</b> {{vehicle.attributes.speed}} <br />' +
                     '<b>Train</b> {{vehicle.attributes.label}} <br />' +
@@ -129,8 +156,11 @@
                 google.maps.event.addListener(marker{{ forloop.counter }}, 'click', function() {
                     marker{{ forloop.counter }}.info.open(map, marker{{ forloop.counter }});
                 });
-            
+
+                markers.push(marker{{ forloop.counter }});
+
             {% endfor %}
+
         }
         </script>
 

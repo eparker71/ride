@@ -3,6 +3,8 @@
 # secure is required by the application
 secure.py
 
+do_not_track.txt
+
 # user_data is used to create server instances for peod deployment
 # not required by the application to run
 user_data.sh

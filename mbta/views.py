@@ -1,5 +1,5 @@
 import mbta.controller as api
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from ride.secure import secure_settings
 from ride.settings import ENV
@@ -33,13 +33,20 @@ def home(request):
         }
     )
 
+def car_location(request, id):
+    car = api.get_vehicle(id)
+    return JsonResponse({'latitude': car['data']['attributes']['latitude'],
+    'longitude': car['data']['attributes']['longitude']})
+
 def detail(request, route_id):
     route = api.get_routes(route_id)
     stops = api.get_stops(route_id)
     vehicles = api.get_vehicles(route_id)
-    predictions = api.get_prediction(route_id)
+    #predictions = api.get_prediction(route_id)
+    #print(predictions)
 
-    print(predictions)
+    for v in vehicles['data']:
+        print(v['id'])
 
     stop_coords = []
 
