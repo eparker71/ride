@@ -76,6 +76,7 @@
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
+
         <script>
         markers = [];
         function updateMarkers() {
@@ -93,6 +94,15 @@
                             marker.setPosition(LatLng);
                         });
             }
+        }
+
+        function createLabel(text){
+            svg = '<?xml version="1.0"?>' + 
+            '<svg height="100" width="100" xmlns="http://www.w3.org/2000/svg">' +
+            '<text x="0" y="20" fill="black" transform="rotate(-45, 100, 25)">' + text + '</text>' + 
+            '</svg>';
+
+            return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
         }
 
         window.setInterval(updateMarkers, 10000);
@@ -116,21 +126,41 @@
                 var inbound = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/bluerail.png";
             {% endif %}
 
+            stops = [];
+
             {% for stop in stops.data %} 
+                console.log(createLabel('{{stop.attributes.name}}'));
+                var stop_point = new google.maps.LatLng({{stop.attributes.latitude}}, {{stop.attributes.longitude}} );
+                stops.push(stop_point);
                 var stop{{ forloop.counter }} = new google.maps.Marker({
-                    position: new google.maps.LatLng({{stop.attributes.latitude}}, {{stop.attributes.longitude}} ),
+                    position: stop_point,
                     map: map,
                     animation: google.maps.Animation.DROP,
-                    icon: new google.maps.MarkerImage(stop_icon)
+                    icon: { url: createLabel('{{stop.attributes.name}}'), scaledSize: new google.maps.Size(100, 100) },
+                    optimized: false 
                 });
+                //new google.maps.MarkerImage(stop_icon)
+
                 stop{{ forloop.counter }}.info = new google.maps.InfoWindow({
                     content: '<b>{{stop.attributes.name}}</b>'
-                    
                 });
+
                 google.maps.event.addListener(stop{{ forloop.counter }}, 'click', function() {
                     stop{{ forloop.counter }}.info.open(map, stop{{ forloop.counter }});
                 });
+
+
             {% endfor %}
+
+            var routePath = new google.maps.Polyline({
+                path: stops,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            routePath.setMap(map);
             
             {% for vehicle in vehicles.data %} 
                 var marker{{ forloop.counter }} = new google.maps.Marker({
