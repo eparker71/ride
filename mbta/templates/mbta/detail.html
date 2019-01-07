@@ -72,13 +72,19 @@
             {% endfor %}
             </div> -->
         </div>
+        <!-- Include jquery -->
         <script
+            type="text/javascript"
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
 
-        <script>
-        markers = [];
+        <!-- contruct map -->
+        <script type="text/javascript">
+        
+        var markers = [];
+        var stops = [];
+
         function updateMarkers() {
             // for(i = 0; i < markers.length; i++){
             //     marker = markers[i];
@@ -99,23 +105,33 @@
         function createLabel(text){
             svg = '<?xml version="1.0"?>' + 
             '<svg height="100" width="100" xmlns="http://www.w3.org/2000/svg">' +
-            '<text x="0" y="20" fill="black" transform="rotate(-45, 100, 25)">' + text + '</text>' + 
+            '<text x="0" y="20" fill="black" transform="rotate(-45, 100, 25)">' + text + '</text>' +
             '</svg>';
 
             return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
         }
+/*
+        '<g transform="translate(0.000000,32.000000) scale(0.100000,-0.100000)"'+
+            'fill="#000000" stroke="none">'+
+            '<path d="M85 278 c-32 -38 -29 -74 10 -119 23 -28 35 -61 50 -132 8 -39 21' +
+            '-26 28 29 3 30 17 63 41 98 43 62 45 84 10 125 -21 26 -33 31 -69 31 -36 0' +
+            '-48 -5 -70 -32z m122 0 c31 -29 29 -70 -6 -119 -16 -22 -33 -54 -37 -71 l-6' +
+            '-32 -13 38 c-7 20 -25 54 -39 75 -32 45 -33 77 -4 108 28 30 74 30 105 1z"/>' +
+            '</g>' +
+*/
 
-        window.setInterval(updateMarkers, 10000);
+
         function myMap() {
             // Boston 42.361145, -71.057083
             // Concord 42.4602778,-71.3494444
-
             // zoom level 10 works for a distance between begin and end of 22.668560907933028
             var mapProp= {
                 center:new google.maps.LatLng( {{map_center.latitude }}, {{ map_center.longitude }} ),
                 zoom: {{zoom_level}},
             };
+
             var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
             {% if env == 'dev' %}
                 var outbound = '{% static "mbta/redrail.png" %}';
                 var inbound = '{% static "mbta/bluerail.png" %}';
@@ -125,8 +141,6 @@
                 var outbound =  "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/redrail.png";
                 var inbound = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/bluerail.png";
             {% endif %}
-
-            stops = [];
 
             {% for stop in stops.data %} 
                 console.log(createLabel('{{stop.attributes.name}}'));
@@ -148,7 +162,6 @@
                 google.maps.event.addListener(stop{{ forloop.counter }}, 'click', function() {
                     stop{{ forloop.counter }}.info.open(map, stop{{ forloop.counter }});
                 });
-
 
             {% endfor %}
 
@@ -175,6 +188,7 @@
                     icon: new google.maps.MarkerImage(inbound)
                     {% endif %}
                 });
+
                 // use this to update marker position
                 //https://stackoverflow.com/questions/9736508/update-marker-in-real-time
                 marker{{ forloop.counter }}.info = new google.maps.InfoWindow({
@@ -182,6 +196,7 @@
                     '<b>Train</b> {{vehicle.attributes.label}} <br />' +
                     '<b>{% if vehicle.attributes.direction_id == 0 %} Outbound {% else %} Inbound {% endif %}</b>'
                 });
+
                 google.maps.event.addListener(marker{{ forloop.counter }}, 'click', function() {
                     marker{{ forloop.counter }}.info.open(map, marker{{ forloop.counter }});
                 });
@@ -191,6 +206,9 @@
             {% endfor %}
 
         }
+
+        window.setInterval(updateMarkers, 10000);
+        
         </script>
 
         <script src="https://maps.googleapis.com/maps/api/js?key={{mapkey}}&callback=myMap"></script>
