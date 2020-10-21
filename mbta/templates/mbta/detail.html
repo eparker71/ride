@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,15 +54,15 @@
                 </div>
             </div>
 
-            <!-- <div class="container">
+            <div class="container">
             {% for vehicle in vehicles.data %}
                 <div class="vehicle">
                     <p>
-                        Bearing: {{vehicle.attributes.bearing}} <br />
-                        Current Status: {{vehicle.attributes.current_status}} <br />
+                        <!---Bearing: {{vehicle.attributes.bearing}} <br />
+                        Current Status: {{vehicle.attributes.current_status}} <br />-->
                         Current Stop: {{vehicle.attributes.current_stop_sequence}} <br />
                         Direction: {% if vehicle.attributes.direction_id == 0 %}Outbound{% else %}Inbound{%endif%}<br />
-                        Label: {{vehicle.attributes.label}} <br />
+                        Train: {{vehicle.attributes.label}} <br />
                         Latitude: {{vehicle.attributes.latitude}} <br />
                         Longitude: {{vehicle.attributes.longitude}} <br />
                         Speed: {{vehicle.attributes.speed}} <br />
@@ -70,14 +70,12 @@
                     </p>
                 </div>
             {% endfor %}
-            </div> -->
+            </div> 
         </div>
         <!-- Include jquery -->
-        <script
-            type="text/javascript"
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+                crossorigin="anonymous"></script>
 
         <!-- contruct map -->
         <script type="text/javascript">
@@ -86,11 +84,6 @@
         var stops = [];
 
         function updateMarkers() {
-            // for(i = 0; i < markers.length; i++){
-            //     marker = markers[i];
-            //     url = '/mbta/vehicle/' + marker.title + '/';
-            //     console.log(url);
-            // }
 
             for(i = 0; i < markers.length; i++){
                 marker = markers[i];
@@ -107,7 +100,6 @@
             '<svg height="100" width="100" xmlns="http://www.w3.org/2000/svg">' +
             '<text x="0" y="20" fill="black" transform="rotate(-45, 100, 25)">' + text + '</text>' +
             '</svg>';
-
             return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
         }
 /*
@@ -125,7 +117,8 @@
             // Boston 42.361145, -71.057083
             // Concord 42.4602778,-71.3494444
             // zoom level 10 works for a distance between begin and end of 22.668560907933028
-            var mapProp= {
+
+            var mapProp = {
                 center:new google.maps.LatLng( {{map_center.latitude }}, {{ map_center.longitude }} ),
                 zoom: {{zoom_level}},
             };
@@ -133,27 +126,25 @@
             var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
             {% if env == 'dev' %}
-                var outbound = '{% static "mbta/redrail.png" %}';
-                var inbound = '{% static "mbta/bluerail.png" %}';
-                var stop_icon = '{% static "mbta/green.png" %}';
+                var outbound  = '{% static "mbta/redrail.png"  %}';
+                var inbound   = '{% static "mbta/bluerail.png" %}';
+                var stop_icon = '{% static "mbta/green.png"    %}';
             {% else %}
                 var stop_icon = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/green.png";
-                var outbound =  "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/redrail.png";
-                var inbound = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/bluerail.png";
+                var outbound  = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/redrail.png";
+                var inbound   = "http://cscie34.s3-website.us-east-2.amazonaws.com/ride/bluerail.png";
             {% endif %}
 
             {% for stop in stops.data %} 
-                console.log(createLabel('{{stop.attributes.name}}'));
                 var stop_point = new google.maps.LatLng({{stop.attributes.latitude}}, {{stop.attributes.longitude}} );
                 stops.push(stop_point);
                 var stop{{ forloop.counter }} = new google.maps.Marker({
                     position: stop_point,
                     map: map,
                     animation: google.maps.Animation.DROP,
-                    icon: { url: createLabel('{{stop.attributes.name}}'), scaledSize: new google.maps.Size(100, 100) },
+                    icon: new google.maps.MarkerImage(stop_icon),
                     optimized: false 
                 });
-                //new google.maps.MarkerImage(stop_icon)
 
                 stop{{ forloop.counter }}.info = new google.maps.InfoWindow({
                     content: '<b>{{stop.attributes.name}}</b>'
@@ -207,7 +198,7 @@
 
         }
 
-        window.setInterval(updateMarkers, 10000);
+        window.setInterval(updateMarkers, 1000);
         
         </script>
 
