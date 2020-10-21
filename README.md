@@ -1,5 +1,8 @@
 # ride
 
+![Build Status](https://travis-ci.org/eparker71/ride.svg?branch=main "Build Status")
+
+
 ## Before you begin
 
 You will need to install Docker and docker-compose
