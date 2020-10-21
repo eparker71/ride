@@ -4,7 +4,7 @@ bin/
 
 
 # secure is required by the application
-secure.py
+secure.sh
 pyvenv.cfg
 do_not_track.txt
 
