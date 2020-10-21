@@ -1,6 +1,6 @@
 # ride
 
-## Before you being
+## Before you begin
 
 You will need to install Docker and docker-compose
 
